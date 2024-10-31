@@ -87,7 +87,7 @@ export async function updateInvoice(id: string, prevState: State, formData: Form
     }
     // Prepare data for update into the database
     const { customerId, amount, status } = validatedFields.data;
-    const amountInCents = amount * 100;
+    const amountInCents = Number((amount * 100).toFixed(0));
 
     // Update data into the database
     try {
@@ -98,7 +98,7 @@ export async function updateInvoice(id: string, prevState: State, formData: Form
         `;
     } catch (error) {
         console.log(error);
-        return { message: 'Database Error: Failed to Update Invoice.' };
+        return { message: 'Database Error: Failed to Update Invoice.' + error };
     }
     revalidatePath('/dashboard/invoices');
     redirect('/dashboard/invoices');
